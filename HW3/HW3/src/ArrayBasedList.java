@@ -1,57 +1,118 @@
-public class ArrayBasedList implements ListInterface{
+import java.lang.reflect.Array;
 
+public class ArrayBasedList<T extends Comparable> implements ListInterface{
+
+	T[] aBL;
+	int count;
+	
+	public ArrayBasedList(){
+		aBL = (T[]) Array.newInstance(Comparable.class, 10);
+		count = 0;
+	}
+	
+	
 	@Override
 	public int size() {
-		// TODO Auto-generated method stub
-		return 0;
+		return count;
 	}
 
 	@Override
 	public boolean isEmpty() {
-		// TODO Auto-generated method stub
-		return false;
+		if (count == 0)
+			return true;
+		else
+			return false;
+		
 	}
 
 	@Override
 	public void add(Comparable element) {
-		// TODO Auto-generated method stub
+		if(count != 10){
+		aBL[count]= (T) element;
+		count++;
+		}
 		
 	}
 
 	@Override
 	public boolean add(Comparable element, int index) {
-		// TODO Auto-generated method stub
-		return false;
+		
+		if(index < 0 || index > 10){
+			return false;
+		}
+		else{
+			aBL[index] = (T) element;
+			return true;
+		}
+		
 	}
 
 	@Override
 	public void addSorted(Comparable element) {
-		// TODO Auto-generated method stub
+	
+	for (int i = 0; i < aBL.length-1; i++){
+	
+		int nextIndex = i+1;
+		int prevIndex = 0;
 		
+		if (i-1 < 0){
+		prevIndex = 0;
+		}
+	else{
+		prevIndex = i-1;
+	}
+	
+	
+	if (element.compareTo((T) aBL[prevIndex]) >= 0 || element.compareTo((T) aBL[nextIndex]) <= 0){	
+		aBL[i] = (T) element;
+		break;
+	}
+		
+	}
+	
 	}
 
 	@Override
 	public Comparable get(int index) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		return aBL[index];
 	}
 
 	@Override
 	public Comparable replace(Comparable element, int index) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+		if(index < 0 || index > 10){
+			return null;
+		}
+		
+		Comparable temp = aBL[index];
+		aBL[index] = (T) element;
+		
+		return temp;
+		
+		}
+	
 
 	@Override
 	public boolean remove(int index) {
-		// TODO Auto-generated method stub
-		return false;
+		if(index < 0 || index > 10){
+			return false;
+		}
+		else{
+			aBL[index] = null;
+			return true;
+		}
 	}
 
 	@Override
 	public void removeAll() {
-		// TODO Auto-generated method stub
+		aBL = (T[]) new Comparable[10];
 		
 	}
 
 }
+
+
+
+
+
+// it is a generic type <T>??
